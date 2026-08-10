@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashley Hotels — Portfolio Daybook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#00a59e; --teal-dark:#00847f; --teal-tint:#f2fbfa; --teal-tint-strong:#e2f5f3;
+    --charcoal:#232326; --charcoal-soft:#6b6b6f; --hairline:#e6e6e8; --hairline-strong:#d6d6d9;
+    --bg:#ffffff; --brick:#a13f2e; --pending:#a6a6ab;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--bg); font-family:'IBM Plex Sans', sans-serif; color:var(--charcoal); padding:44px 20px 64px; min-height:100vh; }
+  .sheet{ max-width:1080px; margin:0 auto; background:var(--bg); }
+
+  .masthead{ display:flex; justify-content:space-between; align-items:center; padding:0 0 22px; border-bottom:2px solid var(--charcoal); margin-bottom:16px; }
+  .masthead .logo-mark{ height:40px; display:block; }
+  .masthead .divider{ width:1px; height:32px; background:var(--hairline-strong); margin:0 20px; }
+  .brandtext .kicker{ font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--teal-dark); font-weight:600; margin:0 0 3px; }
+  .brandtext h1{ font-family:'Fraunces', serif; font-weight:500; font-size:20px; margin:0; color:var(--charcoal); }
+  .masthead .dateblock{ text-align:right; font-family:'IBM Plex Mono', monospace; }
+  .dateblock .day{ font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--charcoal-soft); }
+  .dateblock .full{ font-size:15px; color:var(--charcoal); font-weight:500; }
+
+  .banner{ display:flex; gap:9px; align-items:center; background:var(--teal-tint); border-left:3px solid var(--teal); border-radius:2px; padding:9px 16px; margin-bottom:32px; }
+  .banner .icon{ font-family:'Fraunces', serif; font-style:italic; color:var(--teal-dark); font-size:14px; flex:none; }
+  .banner p{ margin:0; font-size:12px; line-height:1.5; color:var(--charcoal); }
+  .banner strong{ color:var(--teal-dark); }
+
+  .section-label{ font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--teal-dark); font-weight:600; margin:0 0 12px; }
+
+  .summary{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); margin-bottom:2px; }
+  .summary .stat{ background:var(--bg); padding:16px 20px; }
+  .summary .stat .label{ font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--charcoal-soft); font-weight:600; margin-bottom:6px; }
+  .summary .stat .value{ font-family:'Fraunces', serif; font-weight:500; font-size:24px; color:var(--charcoal); line-height:1; }
+  .summary .stat .value .unit{ font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:500; color:var(--teal-dark); }
+  .summary .stat .sub{ margin-top:5px; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--charcoal-soft); }
+  .summary .stat.accent{ border-top:2px solid var(--teal); }
+
+  .detail-panel{ border:1px solid var(--hairline); border-top:none; background:var(--teal-tint); margin-bottom:40px; padding:4px 20px 14px; }
+  .detail-panel .dp-head{ display:flex; align-items:center; gap:7px; font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-dark); padding:10px 0 8px; }
+  table.daily{ width:100%; border-collapse:collapse; }
+  table.daily thead th{ text-align:right; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--charcoal-soft); font-weight:600; padding:0 8px 7px; border-bottom:1px solid var(--hairline-strong); }
+  table.daily thead th:first-child{ text-align:left; }
+  table.daily tbody td{ padding:8px; text-align:right; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--charcoal); font-variant-numeric:tabular-nums; border-bottom:1px solid var(--hairline); }
+  table.daily tbody tr:last-child td{ border-bottom:none; }
+  table.daily tbody td:first-child{ text-align:left; font-family:'IBM Plex Sans', sans-serif; }
+  table.daily .hname{ font-weight:600; font-size:12.5px; }
+  table.daily .hmeta{ font-size:10px; color:var(--charcoal-soft); display:block; font-family:'IBM Plex Mono', monospace; }
+  table.daily td.dim{ color:var(--pending); }
+  table.daily td.flagooo{ color:var(--brick); font-weight:600; }
+
+  .mtd-header-row{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
+  .mtd-header-row .section-label{ margin:0; }
+  .mtd-header-row .caption{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--pending); }
+
+  table.mtd{ width:100%; border-collapse:collapse; margin-bottom:10px; }
+  table.mtd thead th{ text-align:right; font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--charcoal-soft); font-weight:600; padding:0 10px 10px; border-bottom:1.5px solid var(--charcoal); }
+  table.mtd thead th:first-child{ text-align:left; }
+  table.mtd thead tr.group-row th{ border-bottom:none; padding-bottom:4px; color:var(--teal-dark); font-size:9.5px; }
+  table.mtd tbody td{ padding:15px 10px; text-align:right; font-family:'IBM Plex Mono', monospace; font-size:13.5px; color:var(--charcoal); font-variant-numeric:tabular-nums; border-bottom:1px solid var(--hairline); white-space:nowrap; }
+  table.mtd tbody td:first-child{ text-align:left; font-family:'IBM Plex Sans', sans-serif; white-space:normal; }
+  table.mtd tbody tr:nth-child(even){ background:var(--teal-tint); }
+  table.mtd tbody tr:hover{ background:var(--teal-tint-strong); }
+
+  .prop-name{ font-family:'Fraunces', serif; font-weight:500; font-size:16px; color:var(--charcoal); margin:0 0 2px; }
+  .prop-meta{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--charcoal-soft); }
+  .prop-meta .flag{ display:inline-block; margin-left:6px; padding:1px 6px; border:1px solid var(--teal); border-radius:2px; color:var(--teal-dark); font-size:9px; letter-spacing:.06em; text-transform:uppercase; }
+
+  td.revenue{ font-weight:600; }
+  td.pending{ color:var(--pending); font-style:italic; font-size:11.5px; font-weight:400; }
+  td.dim{ color:var(--pending); }
+  .varneg{ color:var(--brick); font-size:11.5px; display:block; }
+  .varpos{ color:var(--teal-dark); font-size:11.5px; display:block; }
+
+  .occbar-wrap{ display:inline-flex; align-items:center; gap:8px; }
+  .occbar{ width:40px; height:5px; border-radius:3px; background:var(--hairline-strong); overflow:hidden; display:inline-block; }
+  .occbar span{ display:block; height:100%; background:var(--teal); border-radius:3px; }
+
+  tr.totals td{ border-top:2px solid var(--charcoal); border-bottom:none; font-weight:600; padding-top:16px; }
+  tr.totals .prop-name{ font-style:italic; font-size:14px; }
+
+  .footnotes{ margin-top:30px; padding-top:20px; border-top:1px solid var(--hairline); }
+  .footnotes .note{ display:flex; gap:10px; font-size:12.5px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:10px; max-width:840px; }
+  .footnotes .note strong{ color:var(--charcoal); }
+  .footnotes .note .bullet{ font-family:'Fraunces', serif; font-style:italic; color:var(--teal-dark); flex:none; }
+  .footnotes .signoff{ margin-top:20px; padding-top:14px; border-top:1px dotted var(--hairline-strong); display:flex; justify-content:space-between; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--pending); }
+
+  @media (max-width:820px){
+    .summary{ grid-template-columns:1fr; }
+    table.daily thead, table.mtd thead{ display:none; }
+    table.daily, table.daily tbody, table.daily tr, table.daily td,
+    table.mtd, table.mtd tbody, table.mtd tr, table.mtd td{ display:block; width:100%; }
+    table.daily tbody tr, table.mtd tbody tr{ padding:12px 4px; border-bottom:1px solid var(--hairline-strong); }
+    table.daily tbody td, table.mtd tbody td{ border-bottom:none; text-align:left; padding:3px 4px; white-space:normal; }
+    table.daily tbody td:not(:first-child)::before, table.mtd tbody td:not(:first-child)::before{
+      content: attr(data-label) ": "; color:var(--charcoal-soft); font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="masthead">
+    <div style="display:flex;align-items:center;">
+      <svg class="logo-mark" width="150" height="40" viewBox="0 0 150 40" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="8" width="24" height="24" fill="#00847f"/>
+        <path d="M4 20 L12 10 L20 20 Z" fill="#f2fbfa"/>
+        <text x="30" y="27" font-family="Fraunces, serif" font-weight="500" font-size="19" fill="#232326">Ashley Hotels</text>
+      </svg>
+      <div class="divider"></div>
+      <div class="brandtext">
+        <p class="kicker">Private Circulation</p>
+        <h1>Portfolio Daybook</h1>
+      </div>
+    </div>
+    <div class="dateblock">
+      <div class="day">Monday</div>
+      <div class="full">10th August 2026</div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <span class="icon">i</span>
+    <p>Reporting across all 6 properties. Highfield, Lidos, Victoria, Mercure and Farnborough are as of Sunday 9 August close; Andover's MTD is summed through today, Monday 10 August. <strong>All 6 properties reported on time — none pending today.</strong></p>
+  </div>
+
+  <p class="section-label">Portfolio — Latest Reported Day</p>
+  <div class="summary">
+    <div class="stat accent">
+      <div class="label">Occupancy</div>
+      <div class="value">86.0<span class="unit">%</span></div>
+      <div class="sub">weighted across 6 properties</div>
+    </div>
+    <div class="stat accent">
+      <div class="label">Rooms Sold</div>
+      <div class="value">307<span class="unit"> / 357</span></div>
+      <div class="sub">out of 357 rooms across the 6</div>
+    </div>
+    <div class="stat accent">
+      <div class="label">Room Revenue</div>
+      <div class="value"><span class="unit">£</span>22,742</div>
+      <div class="sub">latest close, 6 properties</div>
+    </div>
+  </div>
+
+  <div class="detail-panel">
+    <div class="dp-head"><span>▾</span> Per-hotel breakdown, latest reported day</div>
+    <table class="daily">
+      <thead>
+        <tr><th>Property</th><th>Occ.</th><th>Sold</th><th>OOO</th><th>ADR</th><th>RevPAR</th><th>Revenue</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="hname">Highfield House</span><span class="hmeta">Southampton · Sun 9 Aug</span></td>
+          <td data-label="Occ.">91.6%</td><td data-label="Sold">65</td><td data-label="OOO">0</td>
+          <td data-label="ADR">£81.23</td><td data-label="RevPAR">£74.37</td><td data-label="Revenue">£5,280</td>
+        </tr>
+        <tr>
+          <td><span class="hname">Lidos Hotel</span><span class="hmeta">Victoria, London · Sun 9 Aug</span></td>
+          <td data-label="Occ.">86.1%</td><td data-label="Sold">37</td><td data-label="OOO">0</td>
+          <td data-label="ADR">£65.77</td><td data-label="RevPAR">£56.59</td><td data-label="Revenue">£2,433</td>
+        </tr>
+        <tr>
+          <td><span class="hname">Victoria Inn</span><span class="hmeta">Belgravia, London · Sun 9 Aug</span></td>
+          <td data-label="Occ.">75.0%</td><td data-label="Sold">33</td><td data-label="OOO">1</td>
+          <td data-label="ADR">£55.43</td><td data-label="RevPAR">£41.57</td><td data-label="Revenue">£1,829</td>
+        </tr>
+        <tr>
+          <td><span class="hname">Ashley Court (Andover)</span><span class="hmeta">Andover · Mon 10 Aug</span></td>
+          <td data-label="Occ.">60.4%</td><td data-label="Sold">29</td><td data-label="OOO">n/a</td>
+          <td data-label="ADR">£49.67</td><td data-label="RevPAR">£30.01</td><td data-label="Revenue">£1,440</td>
+        </tr>
+        <tr>
+          <td><span class="hname">Mercure White Hart</span><span class="hmeta">Salisbury · Sun 9 Aug</span></td>
+          <td data-label="Occ.">90.0%</td><td data-label="Sold">72</td><td data-label="OOO">3</td>
+          <td data-label="ADR">£88.27</td><td data-label="RevPAR">£79.44</td><td data-label="Revenue">£6,355</td>
+        </tr>
+        <tr>
+          <td><span class="hname">HQ Aparthotel</span><span class="hmeta">Farnborough · Sun 9 Aug</span></td>
+          <td data-label="Occ.">100%</td><td data-label="Sold">71</td><td data-label="OOO">1</td>
+          <td data-label="ADR">£76.13</td><td data-label="RevPAR">£76.13</td><td data-label="Revenue">£5,405</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mtd-header-row">
+    <p class="section-label">Month-to-Date Performance</p>
+    <p class="caption">Real actuals for all 6 — Farnborough live via Night Audit Flash</p>
+  </div>
+  <table class="mtd">
+    <thead>
+      <tr class="group-row"><th></th><th colspan="5">Actual, Month-to-Date</th><th>Budget</th><th>Last Year (actual)</th></tr>
+      <tr>
+        <th>Property</th><th>Occ.</th><th>Sold</th><th>ADR</th><th>RevPAR</th><th>Revenue</th><th>Estimated Budget Revenue</th><th>Estimated LY Revenue</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><p class="prop-name">Highfield House Hotel <span class="prop-meta flag">Manager's Report</span></p><p class="prop-meta">Southampton · MTD to 9 Aug</p></td>
+        <td data-label="Occ."><span class="occbar-wrap"><span class="occbar"><span style="width:85%"></span></span>85.0%</span></td>
+        <td data-label="Sold">543</td>
+        <td data-label="ADR">£87.51</td>
+        <td data-label="RevPAR">£74.37</td>
+        <td class="revenue" data-label="Revenue">£57,024</td>
+        <td data-label="Budget">£52,056<span class="varpos">▲9.5%</span></td>
+        <td data-label="Last Year">£79,929<span class="varneg">▼28.7%</span></td>
+      </tr>
+      <tr>
+        <td><p class="prop-name">Lidos Hotel <span class="prop-meta flag">Manager's Report</span></p><p class="prop-meta">Victoria, London · MTD to 9 Aug</p></td>
+        <td data-label="Occ."><span class="occbar-wrap"><span class="occbar"><span style="width:90%"></span></span>90.4%</span></td>
+        <td data-label="Sold">347</td>
+        <td data-label="ADR">£92.33</td>
+        <td data-label="RevPAR">£83.44</td>
+        <td class="revenue" data-label="Revenue">£38,447</td>
+        <td data-label="Budget">£34,598<span class="varpos">▲11.1%</span></td>
+        <td data-label="Last Year">£40,204<span class="varneg">▼4.4%</span></td>
+      </tr>
+      <tr>
+        <td><p class="prop-name">Victoria Inn <span class="prop-meta flag">Manager's Report</span></p><p class="prop-meta">Belgravia, London · MTD to 9 Aug</p></td>
+        <td data-label="Occ."><span class="occbar-wrap"><span class="occbar"><span style="width:90%"></span></span>90.1%</span></td>
+        <td data-label="Sold">355</td>
+        <td data-label="ADR">£84.39</td>
+        <td data-label="RevPAR">£76.04</td>
+        <td class="revenue" data-label="Revenue">£35,951</td>
+        <td data-label="Budget">£43,825<span class="varneg">▼18.0%</span></td>
+        <td data-label="Last Year">£50,850<span class="varneg">▼29.3%</span></td>
+      </tr>
+      <tr>
+        <td><p class="prop-name">Ashley Court Hotel <span class="prop-meta flag">Calculated</span></p><p class="prop-meta">Andover · MTD to 10 Aug</p></td>
+        <td data-label="Occ."><span class="occbar-wrap"><span class="occbar"><span style="width:58%"></span></span>58.0%</span></td>
+        <td data-label="Sold">276</td>
+        <td data-label="ADR">£59.72</td>
+        <td data-label="RevPAR">£34.63</td>
+        <td class="revenue" data-label="Revenue">£16,484</td>
+        <td data-label="Budget">£30,326<span class="varneg">▼45.6%</span></td>
+        <td data-label="Last Year">£26,789<span class="varneg">▼38.5%</span></td>
+      </tr>
+      <tr>
+        <td><p class="prop-name">Mercure White Hart <span class="prop-meta flag">NA01 Manager Report</span></p><p class="prop-meta">Salisbury · MTD to 9 Aug</p></td>
+        <td data-label="Occ."><span class="occbar-wrap"><span class="occbar"><span style="width:93%"></span></span>92.8%</span></td>
+        <td data-label="Sold">668</td>
+        <td data-label="ADR">£109.66</td>
+        <td data-label="RevPAR">£101.74</td>
+        <td class="revenue" data-label="Revenue">£73,254</td>
+        <td data-label="Budget">£79,625<span class="varneg">▼8.0%</span></td>
+        <td data-label="Last Year">£97,465<span class="varneg">▼24.8%</span></td>
+      </tr>
+      <tr>
+        <td><p class="prop-name">HQ Aparthotel Farnborough <span class="prop-meta flag">Night Audit Flash</span></p><p class="prop-meta">Farnborough · MTD to 9 Aug</p></td>
+        <td data-label="Occ."><span class="occbar-wrap"><span class="occbar"><span style="width:96%"></span></span>95.8%</span></td>
+        <td data-label="Sold">684</td>
+        <td data-label="ADR">£80.97</td>
+        <td data-label="RevPAR">£77.56</td>
+        <td class="revenue" data-label="Revenue">£55,106</td>
+        <td data-label="Budget">£52,592<span class="varpos">▲4.8%</span></td>
+        <td data-label="Last Year">£46,175<span class="varpos">▲19.3%</span></td>
+      </tr>
+      <tr class="totals">
+        <td><p class="prop-name">Portfolio (6 properties)</p></td>
+        <td data-label="Occ.">—</td>
+        <td data-label="Sold">2,873</td>
+        <td data-label="ADR">—</td>
+        <td data-label="RevPAR">—</td>
+        <td data-label="Revenue">£276,267</td>
+        <td data-label="Budget">£293,023</td>
+        <td data-label="Last Year">£341,413</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footnotes">
+    <div class="note"><span class="bullet">i.</span><span><strong>Highfield, Lidos and Victoria's full MTD picture</strong> — Occupancy, Rooms Sold, ADR, RevPAR, and genuine actual Last-Year MTD — comes from the "Manager's Daily Report" inside each hotel's AuditPack PDF (attached to the "Dayend Close Report" email, not the iQMsg summary). That report carries a real same-period Last-Year comparison, so those figures are actuals, not estimates.</span></div>
+    <div class="note"><span class="bullet">ii.</span><span>Lidos and Victoria's Budget column is estimated: full August 2026 budget (Lidos £107,255; Victoria £135,858), sourced from 21. Management Information / [Property] / Budget / 2026 / 2026 Budget Topline Figures v0.1.xlsx, prorated by days elapsed (10/31).</span></div>
+    <div class="note"><span class="bullet">iii.</span><span>Mercure's Budget column is estimated: full August 2026 budget (£246,838), sourced from 21.9 Salisbury / 1. Management Accounts / Current / Salisbury Budget 2026.pdf, prorated by days elapsed (10/31).</span></div>
+    <div class="note"><span class="bullet">iv.</span><span>Andover's Actual MTD is calculated by summing its daily pace report (1–10 Aug) rather than a native MTD figure from source.</span></div>
+    <div class="note"><span class="bullet">v.</span><span>Andover's Last Year is estimated: full August 2025 actual revenue (£83,047, from 21.4 Andover / 1. Management Accounts / Current / Archive / MI Andover December 25 Final), prorated by days elapsed (10/31).</span></div>
+    <div class="note"><span class="bullet">vi.</span><span>Highfield's Budget column is estimated: full August 2026 budget (£179,305, from the "Budget P&L" tab of Soton Budget Template 2026), prorated by days elapsed (9/31 — Highfield reports to 9 Aug, one day behind the others).</span></div>
+    <div class="note"><span class="bullet">vii.</span><span>Andover's Budget column is estimated: full August 2026 budget (£94,010, from the "Budget P&L" tab of Andover Budget Template 2026 v0.4), prorated by days elapsed (10/31).</span></div>
+    <div class="note"><span class="bullet">viii.</span><span>Mercure's Last Year is estimated: full August 2025 actual revenue (£302,143, from 21.9 Salisbury / 1. Management Accounts / Current / Archive / MI Salisbury Draft December 2025), prorated by days elapsed (10/31).</span></div>
+    <div class="note"><span class="bullet">ix.</span><span>Farnborough's Today and MTD Actual figures come from Janet Tregurtha's daily Night Audit Flash report — the RMS Cloud "EOD Report" also received each morning is a separate, debtors/receivables-only report and isn't used here.</span></div>
+    <div class="note"><span class="bullet">x.</span><span>Farnborough's Budget column is estimated: full August 2026 budget (£163,035 Rooms Revenue, from 21.8 Farnborough / Budget / 2026 / FARHQ Budget 2026 - P&L.xlsx), prorated by days elapsed (10/31).</span></div>
+    <div class="note"><span class="bullet">xi.</span><span>Farnborough's Last Year is estimated: full August 2025 actual Rooms Revenue (£143,141, from 21.8 Farnborough / 1. Management Accounts / Current / Archive / 12. December 2025 - HQ Aparthotel - Cycas Owners Report - P&L.xlsx), prorated by days elapsed (10/31).</span></div>
+    <div class="signoff">
+      <span>Compiled from Outlook + SharePoint · 10 Aug 2026, 18:54 BST</span>
+      <span>Ashley Hotels — private circulation only</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
